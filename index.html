@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#1a1a2e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Narciso" />
+  <title>Comunicatore di Narciso</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f3ee;
+      --surface: #ffffff;
+      --surface2: #f0ebe4;
+      --accent: #e8734a;
+      --accent2: #4a90d9;
+      --text: #1a1208;
+      --text2: #6b5c4e;
+      --text3: #a8998a;
+      --green: #3aaa6e;
+      --red: #e05252;
+      --border: rgba(0,0,0,0.08);
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 6px 24px rgba(0,0,0,0.12);
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    #header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px 8px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: var(--shadow);
+    }
+
+    #phrase-bar {
+      min-height: 56px;
+      background: var(--surface2);
+      border-radius: var(--radius-sm);
+      border: 2px dashed var(--border);
+      padding: 8px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .phrase-empty {
+      color: var(--text3);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .phrase-chip {
+      background: var(--accent2);
+      color: white;
+      border-radius: 999px;
+      padding: 5px 12px 5px 10px;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      animation: popIn 0.15s ease;
+    }
+
+    .phrase-chip .chip-icon { font-size: 18px; }
+    .phrase-chip .chip-del {
+      opacity: 0.7;
+      cursor: pointer;
+      font-size: 13px;
+      margin-left: 2px;
+      width: 18px; height: 18px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+    }
+    .phrase-chip .chip-del:active { background: rgba(255,255,255,0.45); }
+
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    #action-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr 2fr;
+      gap: 8px;
+    }
+
+    .action-btn {
+      padding: 10px 8px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: transform 0.1s, opacity 0.1s;
+    }
+    .action-btn:active { transform: scale(0.95); opacity: 0.85; }
+
+    #btn-back {
+      background: var(--surface2);
+      color: var(--text2);
+    }
+    #btn-clear {
+      background: #ffe5e5;
+      color: var(--red);
+    }
+    #btn-speak {
+      background: var(--green);
+      color: white;
+      font-size: 16px;
+    }
+
+    /* TABS */
+    #cat-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px 16px 4px;
+      scrollbar-width: none;
+    }
+    #cat-tabs::-webkit-scrollbar { display: none; }
+
+    .cat-tab {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      color: var(--text2);
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .cat-tab.active {
+      border-color: transparent;
+      color: white;
+      box-shadow: var(--shadow);
+    }
+    .cat-tab:active { transform: scale(0.95); }
+
+    /* GRID */
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      padding: 12px 16px 100px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 10px 14px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .card:active {
+      transform: scale(0.93);
+      box-shadow: none;
+    }
+    .card .card-icon { font-size: 48px; line-height: 1; }
+    .card .card-label {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .card .card-sub {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      line-height: 1.3;
+    }
+
+    /* SPEAK BANNER */
+    #speak-banner {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--green);
+      color: white;
+      border-radius: var(--radius);
+      padding: 14px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      max-width: 90vw;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 999;
+      box-shadow: var(--shadow-lg);
+    }
+    #speak-banner.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* SETTINGS OVERLAY */
+    #settings-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    #settings-overlay.open { display: flex; }
+    #settings-panel {
+      background: var(--surface);
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 20px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90dvh;
+      overflow-y: auto;
+    }
+    #settings-panel h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+    .setting-row label {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text2);
+    }
+    .setting-row input[type=range] {
+      flex: 1;
+      accent-color: var(--accent);
+    }
+    .setting-row select {
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+    }
+    #close-settings {
+      width: 100%;
+      margin-top: 16px;
+      padding: 14px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* SETTINGS BUTTON */
+    #btn-settings {
+      position: fixed;
+      bottom: 24px;
+      right: 16px;
+      width: 48px; height: 48px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      z-index: 99;
+    }
+    #btn-settings:active { transform: scale(0.92); }
+
+    /* large mode */
+    body.large #grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+    body.large .card .card-icon { font-size: 60px; }
+    body.large .card .card-label { font-size: 18px; }
+    body.large .card .card-sub { font-size: 13px; }
+    body.large .phrase-chip { font-size: 18px; padding: 7px 16px 7px 12px; }
+    body.large .cat-tab { font-size: 16px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+
+<div id="header">
+  <div id="phrase-bar">
+    <span class="phrase-empty" id="empty-msg">Tocca una carta per iniziare…</span>
+  </div>
+  <div id="action-bar">
+    <button class="action-btn" id="btn-back" onclick="removeLast()">⬅ Cancella</button>
+    <button class="action-btn" id="btn-clear" onclick="clearAll()">🗑 Pulisci</button>
+    <button class="action-btn" id="btn-speak" onclick="speakPhrase()">🔊 Di' la frase</button>
+  </div>
+</div>
+
+<div id="cat-tabs"></div>
+<div id="grid"></div>
+
+<div id="speak-banner"></div>
+<button id="btn-settings" onclick="openSettings()" aria-label="Impostazioni">⚙️</button>
+
+<div id="settings-overlay" onclick="maybeCloseSettings(event)">
+  <div id="settings-panel">
+    <h2>⚙️ Impostazioni</h2>
+    <div class="setting-row">
+      <label>Tasto grande</label>
+      <input type="checkbox" id="toggle-large" onchange="toggleLarge(this)" style="width:22px;height:22px;cursor:pointer;" />
+    </div>
+    <div class="setting-row">
+      <label>Velocità voce</label>
+      <input type="range" id="rate-slider" min="0.5" max="1.5" step="0.1" value="0.85" />
+      <span id="rate-val" style="font-weight:700;min-width:28px;">0.9</span>
+    </div>
+    <div class="setting-row">
+      <label>Voce</label>
+      <select id="voice-select"></select>
+    </div>
+    <button id="close-settings" onclick="closeSettings()">Chiudi</button>
+  </div>
+</div>
+
+<script>
+const CATEGORIES = [
+  {
+    id: 'sinono',
+    label: '✅ Sì / No',
+    color: '#3aaa6e',
+    items: [
+      { icon: '✅', label: 'Sì', sub: 'Sì' },
+      { icon: '❌', label: 'No', sub: 'No' },
+      { icon: '🙏', label: 'Per favore', sub: 'Per favore' },
+      { icon: '🙂', label: 'Grazie', sub: 'Grazie' },
+      { icon: '🆗', label: 'Va bene', sub: 'Va bene' },
+      { icon: '🚫', label: 'Non voglio', sub: 'Non voglio' },
+      { icon: '❓', label: 'Non capisco', sub: 'Non capisco' },
+      { icon: '🔁', label: 'Ancora', sub: 'Ancora' },
+      { icon: '⏸️', label: 'Aspetta', sub: 'Aspetta un momento' },
+      { icon: '🔊', label: 'Ripeti', sub: 'Puoi ripetere per favore?' },
+      { icon: '😌', label: 'Prego', sub: 'Prego' },
+      { icon: '😞', label: 'Mi dispiace', sub: 'Mi dispiace' },
+    ]
+  },
+  {
+    id: 'bisogni',
+    label: '🛁 Bisogni',
+    color: '#4a90d9',
+    items: [
+      { icon: '🚽', label: 'Bagno', sub: 'Ho bisogno del bagno' },
+      { icon: '💧', label: 'Acqua', sub: 'Voglio dell\'acqua' },
+      { icon: '🍽️', label: 'Mangiare', sub: 'Ho fame, voglio mangiare' },
+      { icon: '😴', label: 'Dormire', sub: 'Voglio riposare' },
+      { icon: '💊', label: 'Medicina', sub: 'Ho bisogno di una medicina' },
+      { icon: '🥶', label: 'Ho freddo', sub: 'Ho freddo' },
+      { icon: '🥵', label: 'Ho caldo', sub: 'Ho caldo' },
+      { icon: '🛏️', label: 'Letto', sub: 'Voglio andare a letto' },
+      { icon: '🧥', label: 'Vestirmi', sub: 'Voglio vestirmi' },
+      { icon: '🛁', label: 'Lavarmi', sub: 'Voglio lavarmi' },
+      { icon: '🪑', label: 'Sedermi', sub: 'Voglio sedermi' },
+      { icon: '🧹', label: 'Pulito', sub: 'Voglio essere pulito' },
+    ]
+  },
+  {
+    id: 'dolori',
+    label: '🩺 Dolori',
+    color: '#e05252',
+    items: [
+      { icon: '🤕', label: 'Mal di testa', sub: 'Mi fa male la testa' },
+      { icon: '😖', label: 'Mal di schiena', sub: 'Mi fa male la schiena' },
+      { icon: '🦷', label: 'Mal di denti', sub: 'Mi fanno male i denti' },
+      { icon: '🫁', label: 'Respiro', sub: 'Faccio fatica a respirare' },
+      { icon: '🤢', label: 'Nausea', sub: 'Ho la nausea, mi sento male' },
+      { icon: '😰', label: 'Stordito', sub: 'Mi gira la testa, sono stordito' },
+      { icon: '🦵', label: 'Gambe', sub: 'Mi fanno male le gambe' },
+      { icon: '🖐️', label: 'Mani', sub: 'Mi fanno male le mani' },
+      { icon: '🫀', label: 'Cuore', sub: 'Sento fastidio al petto' },
+      { icon: '🤒', label: 'Febbre', sub: 'Mi sento caldo, forse ho la febbre' },
+      { icon: '😣', label: 'Molto dolore', sub: 'Ho molto dolore' },
+      { icon: '😌', label: 'Sto meglio', sub: 'Sto meglio, grazie' },
+    ]
+  },
+  {
+    id: 'emozioni',
+    label: '😊 Emozioni',
+    color: '#9c6dd8',
+    items: [
+      { icon: '😊', label: 'Felice', sub: 'Sono felice' },
+      { icon: '😔', label: 'Triste', sub: 'Sono triste' },
+      { icon: '😟', label: 'Preoccupato', sub: 'Sono preoccupato' },
+      { icon: '😠', label: 'Arrabbiato', sub: 'Sono arrabbiato' },
+      { icon: '😰', label: 'Stanco', sub: 'Sono molto stanco' },
+      { icon: '😨', label: 'Paura', sub: 'Ho paura' },
+      { icon: '🥰', label: 'Ti voglio bene', sub: 'Ti voglio tanto bene' },
+      { icon: '😐', label: 'Così così', sub: 'Sono così così' },
+      { icon: '👍', label: 'Sto bene', sub: 'Sto bene' },
+      { icon: '😩', label: 'Frustrato', sub: 'Sono frustrato' },
+      { icon: '🤗', label: 'Abbracciami', sub: 'Abbracciami per favore' },
+      { icon: '😇', label: 'Tranquillo', sub: 'Sono tranquillo' },
+    ]
+  },
+  {
+    id: 'persone',
+    label: '👨‍👩‍👧 Persone',
+    color: '#e8734a',
+    items: [
+      { icon: '👨‍⚕️', label: 'Dottore', sub: 'Voglio il dottore' },
+      { icon: '👧', label: 'Figlia/Figlio', sub: 'Voglio vedere mio figlio' },
+      { icon: '👶', label: 'Nipoti', sub: 'Voglio vedere i nipoti' },
+      { icon: '👩', label: 'Moglie/Marito', sub: 'Voglio la mia moglie' },
+      { icon: '🧑‍🤝‍🧑', label: 'Amico', sub: 'Voglio vedere un amico' },
+      { icon: '📞', label: 'Telefonare', sub: 'Voglio telefonare' },
+      { icon: '👥', label: 'Compagnia', sub: 'Voglio compagnia, non voglio stare solo' },
+      { icon: '🙋', label: 'Aiuto', sub: 'Ho bisogno di aiuto' },
+      { icon: '🚶', label: 'Lasciami solo', sub: 'Lasciami solo per favore' },
+      { icon: '👀', label: 'Ascoltami', sub: 'Ascoltami per favore' },
+      { icon: '🤲', label: 'Tienimi la mano', sub: 'Tienimi la mano per favore' },
+      { icon: '🏥', label: 'Ospedale', sub: 'Ho bisogno di andare all\'ospedale' },
+    ]
+  },
+  {
+    id: 'cibo',
+    label: '🍎 Cibo',
+    color: '#d4892a',
+    items: [
+      { icon: '☕', label: 'Caffè', sub: 'Voglio un caffè' },
+      { icon: '🍵', label: 'Tè', sub: 'Voglio un tè' },
+      { icon: '🍞', label: 'Pane', sub: 'Voglio del pane' },
+      { icon: '🍝', label: 'Pasta', sub: 'Voglio la pasta' },
+      { icon: '🍲', label: 'Minestra', sub: 'Voglio la minestra' },
+      { icon: '🍎', label: 'Frutta', sub: 'Voglio della frutta' },
+      { icon: '🍪', label: 'Biscotti', sub: 'Voglio dei biscotti' },
+      { icon: '🥛', label: 'Latte', sub: 'Voglio del latte' },
+      { icon: '🧀', label: 'Formaggio', sub: 'Voglio del formaggio' },
+      { icon: '🍫', label: 'Dolce', sub: 'Voglio qualcosa di dolce' },
+      { icon: '🥩', label: 'Carne', sub: 'Voglio della carne' },
+      { icon: '🍦', label: 'Gelato', sub: 'Voglio un gelato' },
+    ]
+  },
+  {
+    id: 'attivita',
+    label: '📺 Attività',
+    color: '#5aab8a',
+    items: [
+      { icon: '📺', label: 'TV', sub: 'Voglio guardare la televisione' },
+      { icon: '📻', label: 'Radio', sub: 'Voglio ascoltare la radio' },
+      { icon: '📰', label: 'Giornale', sub: 'Voglio leggere il giornale' },
+      { icon: '🎵', label: 'Musica', sub: 'Voglio ascoltare la musica' },
+      { icon: '🚶', label: 'Passeggiata', sub: 'Voglio fare una passeggiata' },
+      { icon: '🌤️', label: 'Fuori', sub: 'Voglio uscire fuori all\'aria aperta' },
+      { icon: '📱', label: 'Tablet', sub: 'Voglio usare il tablet' },
+      { icon: '🎲', label: 'Gioco', sub: 'Voglio giocare a qualcosa' },
+      { icon: '🙏', label: 'Pregare', sub: 'Voglio pregare' },
+      { icon: '💈', label: 'Parrucchiere', sub: 'Voglio andare dal parrucchiere' },
+      { icon: '🌿', label: 'Giardino', sub: 'Voglio stare in giardino' },
+      { icon: '📷', label: 'Foto', sub: 'Voglio vedere le foto di famiglia' },
+    ]
+  },
+];
+
+let phrase = [];
+let currentCat = 'sinono';
+let speechRate = 0.85;
+let selectedVoice = null;
+let voices = [];
+
+// Voices
+function loadVoices() {
+  voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('it'));
+  const sel = document.getElementById('voice-select');
+  sel.innerHTML = '';
+  if (voices.length === 0) {
+    sel.innerHTML = '<option>Voce predefinita</option>';
+    return;
+  }
+  voices.forEach((v, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = v.name.replace('Google ', '').replace(' Italian', '');
+    sel.appendChild(opt);
+  });
+  sel.onchange = () => { selectedVoice = voices[+sel.value]; };
+  selectedVoice = voices[0];
+}
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+// Render
+function renderTabs() {
+  const el = document.getElementById('cat-tabs');
+  el.innerHTML = CATEGORIES.map(c => `
+    <button class="cat-tab ${c.id === currentCat ? 'active' : ''}"
+      style="${c.id === currentCat ? 'background:' + c.color : ''}"
+      onclick="selectCat('${c.id}')">${c.label}</button>
+  `).join('');
+}
+
+function renderGrid() {
+  const cat = CATEGORIES.find(c => c.id === currentCat);
+  document.getElementById('grid').innerHTML = cat.items.map((item, i) => `
+    <div class="card" onclick="addWord(${i})" style="border-color: ${cat.color}22;">
+      <div class="card-icon">${item.icon}</div>
+      <div class="card-label">${item.label}</div>
+      <div class="card-sub">${item.sub}</div>
+    </div>
+  `).join('');
+}
+
+function renderPhrase() {
+  const bar = document.getElementById('phrase-bar');
+  if (phrase.length === 0) {
+    bar.innerHTML = '<span class="phrase-empty" id="empty-msg">Tocca una carta per iniziare…</span>';
+    return;
+  }
+  bar.innerHTML = phrase.map((w, i) => `
+    <span class="phrase-chip">
+      <span class="chip-icon">${w.icon}</span>
+      ${w.label}
+      <span class="chip-del" onclick="removeAt(${i})">✕</span>
+    </span>
+  `).join('');
+}
+
+function selectCat(id) {
+  currentCat = id;
+  renderTabs();
+  renderGrid();
+}
+
+function addWord(itemIndex) {
+  const cat = CATEGORIES.find(c => c.id === currentCat);
+  phrase.push(cat.items[itemIndex]);
+  renderPhrase();
+  // vibrate on mobile
+  if (navigator.vibrate) navigator.vibrate(30);
+}
+
+function removeLast() {
+  if (phrase.length) { phrase.pop(); renderPhrase(); }
+}
+
+function removeAt(i) {
+  phrase.splice(i, 1);
+  renderPhrase();
+}
+
+function clearAll() {
+  phrase = [];
+  renderPhrase();
+}
+
+function speakPhrase() {
+  if (phrase.length === 0) return;
+  const text = phrase.map(w => w.sub || w.label).join('. ');
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'it-IT';
+    utt.rate = speechRate;
+    if (selectedVoice) utt.voice = selectedVoice;
+    speechSynthesis.speak(utt);
+  }
+  const banner = document.getElementById('speak-banner');
+  banner.textContent = '🔊 ' + text;
+  banner.classList.add('visible');
+  setTimeout(() => banner.classList.remove('visible'), 3500);
+  if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
+}
+
+// Settings
+function openSettings() {
+  document.getElementById('settings-overlay').classList.add('open');
+  const slider = document.getElementById('rate-slider');
+  slider.value = speechRate;
+  document.getElementById('rate-val').textContent = speechRate.toFixed(1);
+  slider.oninput = () => {
+    speechRate = parseFloat(slider.value);
+    document.getElementById('rate-val').textContent = speechRate.toFixed(1);
+  };
+}
+function closeSettings() {
+  document.getElementById('settings-overlay').classList.remove('open');
+}
+function maybeCloseSettings(e) {
+  if (e.target === document.getElementById('settings-overlay')) closeSettings();
+}
+function toggleLarge(cb) {
+  document.body.classList.toggle('large', cb.checked);
+}
+
+// Init
+renderTabs();
+renderGrid();
+renderPhrase();
+
+// Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
+</script>
+
+</body>
+</html>
