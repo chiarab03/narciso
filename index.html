@@ -13,279 +13,117 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f5f0e8;
-      --surface: #ffffff;
-      --surface2: #ece6dc;
-      --accent: #e8734a;
-      --accent2: #3a7bd5;
-      --green: #2eaa6e;
-      --red: #e04f4f;
-      --yellow: #f5c842;
-      --text: #1a1208;
-      --text2: #5a4e40;
-      --text3: #9a8e80;
-      --border: rgba(0,0,0,0.10);
-      --radius: 22px;
-      --radius-sm: 14px;
+      --bg: #f5f0e8; --surface: #ffffff; --surface2: #ece6dc;
+      --accent: #e8734a; --accent2: #3a7bd5;
+      --green: #2eaa6e; --red: #e04f4f; --yellow: #f5c842;
+      --text: #1a1208; --text2: #5a4e40; --text3: #9a8e80;
+      --border: rgba(0,0,0,0.10); --radius: 22px; --radius-sm: 14px;
       --scan-color: #f5c842;
       --scan-glow: 0 0 0 5px #f5c84280, 0 0 32px #f5c84255;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      font-family: 'Nunito', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      height: 100vh;
+      font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text);
+      min-height: 100vh; display: flex; flex-direction: column;
+      overflow: hidden; height: 100vh;
     }
-
-    /* ── TOP BAR ── */
     #topbar {
-      background: var(--surface);
-      border-bottom: 1.5px solid var(--border);
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
+      background: var(--surface); border-bottom: 1.5px solid var(--border);
+      padding: 10px 20px; display: flex; align-items: center; gap: 12px; flex-shrink: 0;
     }
-
     #phrase-bar {
-      flex: 1;
-      min-height: 60px;
-      background: var(--surface2);
-      border-radius: var(--radius-sm);
-      border: 2px dashed var(--border);
-      padding: 8px 14px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
+      flex: 1; min-height: 60px; background: var(--surface2);
+      border-radius: var(--radius-sm); border: 2px dashed var(--border);
+      padding: 8px 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
     }
-    .phrase-empty {
-      color: var(--text3);
-      font-size: 17px;
-      font-weight: 700;
-    }
+    .phrase-empty { color: var(--text3); font-size: 17px; font-weight: 700; }
     .phrase-chip {
-      background: var(--accent2);
-      color: white;
-      border-radius: 999px;
-      padding: 6px 14px 6px 10px;
-      font-size: 18px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      animation: popIn 0.15s ease;
-      cursor: pointer;
+      background: var(--accent2); color: white; border-radius: 999px;
+      padding: 6px 14px 6px 10px; font-size: 18px; font-weight: 800;
+      display: flex; align-items: center; gap: 6px;
+      animation: popIn 0.15s ease; cursor: pointer;
     }
     .phrase-chip:hover { opacity: 0.85; }
-
-    @keyframes popIn {
-      from { transform: scale(0.75); opacity: 0; }
-      to   { transform: scale(1);    opacity: 1; }
-    }
-
-    #bar-btns {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      flex-shrink: 0;
-    }
+    @keyframes popIn { from { transform: scale(0.75); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    #bar-btns { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
     .bar-btn {
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-      border: none;
-      font-family: 'Nunito', sans-serif;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: transform 0.1s, filter 0.1s;
+      padding: 8px 16px; border-radius: var(--radius-sm); border: none;
+      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800;
+      cursor: pointer; white-space: nowrap; transition: transform 0.1s, filter 0.1s;
     }
     .bar-btn:hover { filter: brightness(0.92); }
     .bar-btn:active { transform: scale(0.95); }
     #btn-speak { background: var(--green); color: white; font-size: 17px; padding: 10px 20px; }
     #btn-clear { background: #fde8e8; color: var(--red); }
     #btn-back  { background: var(--surface2); color: var(--text2); }
-
-    /* ── CATEGORY TABS ── */
     #cat-row {
-      display: flex;
-      gap: 8px;
-      padding: 10px 20px 6px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      flex-shrink: 0;
-      background: var(--bg);
+      display: flex; gap: 8px; padding: 10px 20px 6px;
+      overflow-x: auto; scrollbar-width: none; flex-shrink: 0; background: var(--bg);
     }
     #cat-row::-webkit-scrollbar { display: none; }
-
     .cat-tab {
-      flex-shrink: 0;
-      padding: 10px 20px;
-      border-radius: 999px;
-      border: 2.5px solid transparent;
-      background: var(--surface);
-      color: var(--text2);
-      font-family: 'Nunito', sans-serif;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.15s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      flex-shrink: 0; padding: 10px 20px; border-radius: 999px;
+      border: 2.5px solid transparent; background: var(--surface); color: var(--text2);
+      font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800;
+      cursor: pointer; transition: all 0.15s; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     }
     .cat-tab:hover { filter: brightness(0.95); transform: translateY(-1px); }
     .cat-tab.active { color: white; box-shadow: 0 4px 14px rgba(0,0,0,0.18); }
-    .cat-tab.scanned {
-      box-shadow: var(--scan-glow);
-      border-color: var(--scan-color);
-      transform: translateY(-2px);
-    }
-
-    /* ── GRID ── */
-    #grid-wrap {
-      flex: 1;
-      overflow-y: auto;
-      padding: 10px 20px 20px;
-    }
-    #grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 12px;
-    }
-
+    .cat-tab.scanned { box-shadow: var(--scan-glow); border-color: var(--scan-color); transform: translateY(-2px); }
+    #grid-wrap { flex: 1; overflow-y: auto; padding: 10px 20px 20px; }
+    #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
     .card {
-      background: var(--surface);
-      border: 3px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px 12px 16px;
-      cursor: pointer;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
+      background: var(--surface); border: 3px solid var(--border); border-radius: var(--radius);
+      padding: 22px 12px 16px; cursor: pointer; text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.07);
-      transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
-      user-select: none;
+      transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s; user-select: none;
     }
-    .card:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.13);
-    }
+    .card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 24px rgba(0,0,0,0.13); }
     .card:active { transform: scale(0.95); box-shadow: none; }
     .card.scanned {
-      border-color: var(--scan-color) !important;
-      box-shadow: var(--scan-glow) !important;
-      transform: translateY(-4px) scale(1.04) !important;
-      z-index: 2;
+      border-color: var(--scan-color) !important; box-shadow: var(--scan-glow) !important;
+      transform: translateY(-4px) scale(1.04) !important; z-index: 2;
     }
-    .card .card-icon { font-size: 64px; line-height: 1; }
+    .card .card-icon  { font-size: 64px; line-height: 1; }
     .card .card-label { font-size: 18px; font-weight: 900; color: var(--text); line-height: 1.2; }
     .card .card-sub   { font-size: 12px; font-weight: 700; color: var(--text3); line-height: 1.3; }
-
-    /* ── SCAN CONTROLS ── */
     #scan-bar {
-      background: var(--surface);
-      border-top: 1.5px solid var(--border);
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-shrink: 0;
+      background: var(--surface); border-top: 1.5px solid var(--border);
+      padding: 10px 20px; display: flex; align-items: center; gap: 16px; flex-shrink: 0;
     }
     #scan-toggle {
-      padding: 10px 20px;
-      border-radius: var(--radius-sm);
-      border: none;
-      font-family: 'Nunito', sans-serif;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-      background: var(--surface2);
-      color: var(--text2);
-      transition: all 0.15s;
-      white-space: nowrap;
+      padding: 10px 20px; border-radius: var(--radius-sm); border: none;
+      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800;
+      cursor: pointer; background: var(--surface2); color: var(--text2);
+      transition: all 0.15s; white-space: nowrap;
     }
-    #scan-toggle.active {
-      background: var(--yellow);
-      color: #5a3a00;
-    }
+    #scan-toggle.active { background: var(--yellow); color: #5a3a00; }
     #scan-toggle:hover { filter: brightness(0.93); }
-
-    .scan-label {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--text2);
-      white-space: nowrap;
-    }
-    #speed-slider {
-      flex: 1;
-      accent-color: var(--accent);
-      max-width: 220px;
-    }
-    #speed-val {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--text2);
-      min-width: 42px;
-    }
-    #scan-hint {
-      margin-left: auto;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text3);
-    }
-
-    /* ── SPOKEN BANNER ── */
+    .scan-label { font-size: 14px; font-weight: 800; color: var(--text2); white-space: nowrap; }
+    #speed-slider { flex: 1; accent-color: var(--accent); max-width: 220px; }
+    #speed-val { font-size: 14px; font-weight: 800; color: var(--text2); min-width: 42px; }
+    #scan-hint { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--text3); }
     #speak-banner {
-      position: fixed;
-      top: 50%;
-      left: 50%;
+      position: fixed; top: 50%; left: 50%;
       transform: translate(-50%, -50%) scale(0.85);
-      background: var(--green);
-      color: white;
-      border-radius: var(--radius);
-      padding: 20px 36px;
-      font-size: 22px;
-      font-weight: 800;
-      max-width: 80vw;
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s, transform 0.25s;
-      z-index: 999;
+      background: var(--green); color: white; border-radius: var(--radius);
+      padding: 20px 36px; font-size: 22px; font-weight: 800; max-width: 80vw;
+      text-align: center; opacity: 0; pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s; z-index: 999;
       box-shadow: 0 8px 40px rgba(0,0,0,0.22);
     }
-    #speak-banner.visible {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    /* ── SCANNING PHASE INDICATOR ── */
-    #phase-indicator {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text3);
-      padding: 0 4px;
-    }
+    #speak-banner.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    #phase-indicator { font-size: 13px; font-weight: 800; color: var(--text3); padding: 0 4px; }
     #phase-indicator.phase-cat  { color: var(--accent); }
     #phase-indicator.phase-card { color: var(--accent2); }
   </style>
 </head>
 <body>
 
-<!-- TOP: phrase bar -->
 <div id="topbar">
   <div id="phrase-bar">
-    <span class="phrase-empty" id="empty-msg">Premi SPAZIO per iniziare a scansionare, o clicca direttamente una carta…</span>
+    <span class="phrase-empty">Premi SPAZIO per iniziare a scansionare, o clicca direttamente una carta…</span>
   </div>
   <div id="bar-btns">
     <button class="bar-btn" id="btn-speak" onclick="speakPhrase()">🔊 Di' la frase</button>
@@ -296,13 +134,9 @@
   </div>
 </div>
 
-<!-- CATEGORY TABS -->
 <div id="cat-row"></div>
-
-<!-- CARDS GRID -->
 <div id="grid-wrap"><div id="grid"></div></div>
 
-<!-- SCAN CONTROLS -->
 <div id="scan-bar">
   <button id="scan-toggle" onclick="toggleScan()">⬛ Scanning OFF</button>
   <span id="phase-indicator">—</span>
@@ -315,69 +149,77 @@
 <div id="speak-banner"></div>
 
 <script>
-// ═══════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// CATEGORIE  —  modifica qui le parole di Narciso
+// ═══════════════════════════════════════════════════════════
 const CATEGORIES = [
+
+  // ── 1. RISPOSTE RAPIDE ──────────────────────────────────
   { id:'sinono', label:'✅ Sì / No', color:'#2eaa6e', items:[
-    {icon:'✅',label:'Sì',          sub:'Sì'},
-    {icon:'❌',label:'No',          sub:'No'},
-    {icon:'🙏',label:'Per favore',  sub:'Per favore'},
-    {icon:'🙂',label:'Grazie',      sub:'Grazie'},
-    {icon:'❓',label:'Non capisco', sub:'Non capisco, puoi ripetere?'},
-    {icon:'🔁',label:'Ancora',      sub:'Ancora per favore'},
-    {icon:'⏸️',label:'Aspetta',    sub:'Aspetta'},
-    {icon:'😞',label:'Scusa', sub:'Scusa'},
-    {icon:'👍',label:'Sto bene',    sub:'Sto bene'},
-    {icon:'⚠️',label:'Aiuto',       sub:'Aiuto'},
-    {icon:'🚽',label:'Bagno',       sub:'Ho bisogno del bagno'},
-    {icon:'💧',label:'Acqua',       sub:'Voglio dell\'acqua'},
-    {icon:'🍽️',label:'Mangiare',   sub:'Ho fame, voglio mangiare'},
-    {icon:'😴',label:'Dormire',     sub:'Voglio riposare'},
-    {icon:'💊',label:'Medicina',    sub:'Ho bisogno di una medicina'},
-    {icon:'🥶',label:'Ho freddo',   sub:'Ho freddo'},
-    {icon:'🥵',label:'Ho caldo',    sub:'Ho caldo'},
-    {icon:'🛏️',label:'Letto',      sub:'Voglio andare a letto'},
-    {icon:'🛋️',label:'Poltrona',      sub:'Voglio andare sulla poltrona'},
-    {icon:'🤕',label:'Male Testa',       sub:'Mi fa male la testa'},
-    {icon:'😖',label:'Male Schiena',     sub:'Mi fa male la schiena'},
-    {icon:'🦷',label:'Male Denti',       sub:'Mi fanno male i denti'},
-    {icon:'🫁',label:'Respiro',     sub:'Faccio fatica a respirare'},
-    {icon:'🤢',label:'Nausea',      sub:'Ho la nausea, mi sento male'},
-    {icon:'😰',label:'Stordito',    sub:'Mi gira la testa'},
-    {icon:'🦵',label:'Male Gambe',       sub:'Mi fanno male le gambe'},
-    {icon:'🖐️',label:'Male Mani',       sub:'Mi fanno male le mani'},
-    {icon:'🫀',label:'Male Petto',       sub:'Sento fastidio al petto'},
-    {icon:'🤒',label:'Febbre',      sub:'Forse ho la febbre'},
-    {icon:'😣',label:'Molto dolore',sub:'Ho molto dolore'},
-    {icon:'😌',label:'Sto meglio',  sub:'Sto meglio, grazie'},
-    {icon:'👨‍⚕️',label:'Dottore',     sub:'Voglio il dottore'},
-    {icon:'👩🏻',label:'Roberta', sub:'Roberta'},
-    {icon:'👩🏻',label:'Paola', sub:'Paola'},
-    {icon:'👵',label:'Rosetta', sub:'Rosetta'},
-    {icon:'📞',label:'Telefonare',    sub:'Voglio telefonare'},
-    {icon:'🏥',label:'Ospedale',      sub:'Ho bisogno di andare all\'ospedale'},
-    {icon:'📺',label:'Televisione',   sub:'Voglio guardare la televisione'},
-    {icon:'📺',label:'Cambia canale',   sub:'Cambia canale'},
+    {icon:'✅', label:'Sì',           sub:'Sì'},
+    {icon:'❌', label:'No',           sub:'No'},
+    {icon:'👍', label:'Sto bene',     sub:'Sto bene'},
+    {icon:'🙏', label:'Per favore',   sub:'Per favore'},
+    {icon:'🙂', label:'Grazie',       sub:'Grazie'},
+    {icon:'🆗', label:'Va bene',      sub:'Va bene'},
+    {icon:'🚫', label:'Non voglio',   sub:'Non voglio'},
+    {icon:'❓', label:'Non capisco',  sub:'Non capisco, puoi ripetere?'},
+    {icon:'🔁', label:'Ancora',       sub:'Ancora per favore'},
+    {icon:'⏸️', label:'Aspetta',      sub:'Aspetta un momento'},
+    {icon:'⚠️', label:'Aiuto',        sub:'Aiuto, ho bisogno di aiuto'},
+    {icon:'📺',  label:'Televisione',     sub:'Voglio guardare la televisione'},
+    {icon:'🔄',  label:'Cambia canale',   sub:'Cambia canale per favore'},
   ]},
+
+  // ── 2. BISOGNI ──────────────────────────────────────────
+  { id:'bisogni', label:'🛁 Bisogni', color:'#3a7bd5', items:[
+    {icon:'🚽', label:'Bagno',        sub:'Ho bisogno del bagno'},
+    {icon:'💧', label:'Acqua',        sub:'Voglio dell\'acqua'},
+    {icon:'🍽️', label:'Mangiare',    sub:'Ho fame, voglio mangiare'},
+    {icon:'😴', label:'Dormire',      sub:'Voglio riposare'},
+    {icon:'💊', label:'Medicina',     sub:'Ho bisogno di una medicina'},
+    {icon:'🥶', label:'Ho freddo',    sub:'Ho freddo'},
+    {icon:'🥵', label:'Ho caldo',     sub:'Ho caldo'},
+    {icon:'🛏️', label:'Letto',       sub:'Voglio andare a letto'},
+    {icon:'🛋️', label:'Poltrona',    sub:'Voglio andare sulla poltrona'},
+  ]},
+
+  // ── 3. DOLORI ───────────────────────────────────────────
+  { id:'dolori', label:'🩺 Dolori', color:'#e04f4f', items:[
+    {icon:'🤕', label:'Male Testa',   sub:'Mi fa male la testa'},
+    {icon:'😖', label:'Male Schiena', sub:'Mi fa male la schiena'},
+    {icon:'🦷', label:'Male Denti',   sub:'Mi fanno male i denti'},
+    {icon:'🫁', label:'Respiro',      sub:'Faccio fatica a respirare'},
+    {icon:'🤢', label:'Nausea',       sub:'Ho la nausea, mi sento male'},
+    {icon:'😰', label:'Stordito',     sub:'Mi gira la testa, sono stordito'},
+    {icon:'🦵', label:'Male Gambe',   sub:'Mi fanno male le gambe'},
+    {icon:'🖐️', label:'Male Mani',   sub:'Mi fanno male le mani'},
+    {icon:'🫀', label:'Male Petto',   sub:'Sento fastidio al petto'},
+    {icon:'🤒', label:'Febbre',       sub:'Forse ho la febbre'},
+    {icon:'😣', label:'Molto dolore', sub:'Ho molto dolore'},
+    {icon:'😌', label:'Sto meglio',   sub:'Sto meglio, grazie'},
+    {icon:'🏥',  label:'Ospedale',    sub:'Ho bisogno di andare all\'ospedale'},
+    {icon:'👨‍⚕️',label:'Dottore',          sub:'Voglio il dottore'},
+  ]},
+
+  // ── 4. PERSONE ──────────────────────────────────────────
+  { id:'persone', label:'👨‍👩‍👧 Persone', color:'#e8734a', items:[
+    {icon:'👩🏻', label:'Roberta',          sub:'Roberta'},
+    {icon:'👩🏻', label:'Paola',            sub:'Paola'},
+    {icon:'👵',  label:'Rosetta',          sub:'Rosetta'},
+    {icon:'📞',  label:'Telefonare',       sub:'Voglio telefonare'},
+    {icon:'🙋',  label:'Chiama qualcuno',  sub:'Chiamate qualcuno per favore'},
+  ]},
+
 ];
+// ═══════════════════════════════════════════════════════════
+// FINE CATEGORIE  —  non modificare sotto questa riga
+// ═══════════════════════════════════════════════════════════
 
-// ═══════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════
-let phrase       = [];
-let currentCat   = 0;
-let scanActive   = false;
-let scanPhase    = 'cat';   // 'cat' | 'card'
-let scanIdx      = 0;
-let scanTimer    = null;
-let scanSpeed    = 2500;    // ms
-let voices       = [];
-let selectedVoice = null;
+let phrase = [], currentCat = 0, scanActive = false;
+let scanPhase = 'cat', scanIdx = 0, scanTimer = null, scanSpeed = 2500;
+let voices = [], selectedVoice = null;
 
-// ═══════════════════════════════════════════
-// VOICES
-// ═══════════════════════════════════════════
 function loadVoices() {
   const all = speechSynthesis.getVoices();
   voices = all.filter(v => v.lang.startsWith('it'));
@@ -391,236 +233,123 @@ function speak(text, rate = 0.88) {
   if (!('speechSynthesis' in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'it-IT';
-  u.rate = rate;
+  u.lang = 'it-IT'; u.rate = rate;
   if (selectedVoice) u.voice = selectedVoice;
   speechSynthesis.speak(u);
 }
 
-// ═══════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════
 function renderTabs() {
-  const el = document.getElementById('cat-row');
-  el.innerHTML = CATEGORIES.map((c, i) => `
-    <button class="cat-tab ${i === currentCat ? 'active' : ''}"
-      style="${i === currentCat ? 'background:' + c.color : ''}"
-      onclick="clickCat(${i})">${c.label}</button>
-  `).join('');
+  document.getElementById('cat-row').innerHTML = CATEGORIES.map((c,i) => `
+    <button class="cat-tab ${i===currentCat?'active':''}"
+      style="${i===currentCat?'background:'+c.color:''}"
+      onclick="clickCat(${i})">${c.label}</button>`).join('');
 }
-
 function renderGrid() {
   const cat = CATEGORIES[currentCat];
-  document.getElementById('grid').innerHTML = cat.items.map((item, i) => `
-    <div class="card" id="card-${i}"
-      style="border-color:${cat.color}33;"
-      onclick="clickCard(${i})">
+  document.getElementById('grid').innerHTML = cat.items.map((item,i) => `
+    <div class="card" id="card-${i}" style="border-color:${cat.color}33;" onclick="clickCard(${i})">
       <div class="card-icon">${item.icon}</div>
       <div class="card-label">${item.label}</div>
       <div class="card-sub">${item.sub}</div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
-
 function renderPhrase() {
   const bar = document.getElementById('phrase-bar');
-  if (!phrase.length) {
-    bar.innerHTML = '<span class="phrase-empty" id="empty-msg">Premi SPAZIO per iniziare a scansionare, o clicca direttamente una carta…</span>';
-    return;
-  }
-  bar.innerHTML = phrase.map((w, i) => `
+  if (!phrase.length) { bar.innerHTML='<span class="phrase-empty">Premi SPAZIO per iniziare a scansionare, o clicca direttamente una carta…</span>'; return; }
+  bar.innerHTML = phrase.map((w,i) => `
     <span class="phrase-chip" onclick="removeAt(${i})" title="Clicca per rimuovere">
       ${w.icon} ${w.label} <span style="opacity:.6;font-size:13px;">✕</span>
-    </span>
-  `).join('');
+    </span>`).join('');
 }
 
-// ═══════════════════════════════════════════
-// CLICK ACTIONS (direct mouse/touch)
-// ═══════════════════════════════════════════
 function clickCat(i) {
-  currentCat = i;
-  renderTabs();
-  renderGrid();
-  // if scanning, reset to card phase on this category
-  if (scanActive) { scanPhase = 'card'; scanIdx = 0; restartScan(); }
+  currentCat=i; renderTabs(); renderGrid();
+  if (scanActive) { scanPhase='card'; scanIdx=0; restartScan(); }
 }
-
-function clickCard(i) {
-  const item = CATEGORIES[currentCat].items[i];
-  speak(item.sub);
-  addToPhrase(item);
-  flashCard(i);
-}
-
-function addToPhrase(item) {
-  phrase.push(item);
-  renderPhrase();
-}
-
+function clickCard(i) { const item=CATEGORIES[currentCat].items[i]; speak(item.sub); addToPhrase(item); flashCard(i); }
+function addToPhrase(item) { phrase.push(item); renderPhrase(); }
 function removeLast() { phrase.pop(); renderPhrase(); }
-function removeAt(i)  { phrase.splice(i, 1); renderPhrase(); }
-function clearAll()   { phrase = []; renderPhrase(); }
-
+function removeAt(i)  { phrase.splice(i,1); renderPhrase(); }
+function clearAll()   { phrase=[]; renderPhrase(); }
 function speakPhrase() {
   if (!phrase.length) return;
-  const text = phrase.map(w => w.sub).join('. ');
-  speak(text, 0.82);
-  showBanner('🔊 ' + text);
+  const text = phrase.map(w=>w.sub).join('. ');
+  speak(text, 0.82); showBanner('🔊 '+text);
 }
-
 function showBanner(text) {
-  const b = document.getElementById('speak-banner');
-  b.textContent = text;
-  b.classList.add('visible');
-  setTimeout(() => b.classList.remove('visible'), 3000);
+  const b=document.getElementById('speak-banner');
+  b.textContent=text; b.classList.add('visible');
+  setTimeout(()=>b.classList.remove('visible'),3000);
 }
-
 function flashCard(i) {
-  const el = document.getElementById('card-' + i);
-  if (!el) return;
-  el.style.background = '#e8f4ff';
-  setTimeout(() => el.style.background = '', 300);
+  const el=document.getElementById('card-'+i); if(!el) return;
+  el.style.background='#e8f4ff'; setTimeout(()=>el.style.background='',300);
 }
 
-// ═══════════════════════════════════════════
-// SCANNING ENGINE
-// ═══════════════════════════════════════════
 function toggleScan() {
-  scanActive = !scanActive;
-  const btn = document.getElementById('scan-toggle');
-  const hint = document.getElementById('scan-hint');
+  scanActive=!scanActive;
+  const btn=document.getElementById('scan-toggle'), hint=document.getElementById('scan-hint');
   if (scanActive) {
-    btn.textContent = '🟡 Scanning ON';
-    btn.classList.add('active');
-    hint.textContent = 'Premi SPAZIO · Invio · Freccia destra · qualsiasi tasto';
-    scanPhase = 'cat';
-    scanIdx = 0;
-    startScan();
+    btn.textContent='🟡 Scanning ON'; btn.classList.add('active');
+    hint.textContent='Premi SPAZIO · Invio · qualsiasi tasto per selezionare';
+    scanPhase='cat'; scanIdx=0; startScan();
   } else {
-    btn.textContent = '⬛ Scanning OFF';
-    btn.classList.remove('active');
-    hint.textContent = 'Premi SPAZIO o qualsiasi tasto per selezionare';
-    stopScan();
-    clearHighlights();
-    updatePhaseIndicator('—', '');
+    btn.textContent='⬛ Scanning OFF'; btn.classList.remove('active');
+    hint.textContent='Premi SPAZIO o qualsiasi tasto per selezionare';
+    stopScan(); clearHighlights(); updatePhaseIndicator('—','');
   }
 }
-
-function startScan() {
-  clearInterval(scanTimer);
-  scanTimer = setInterval(advanceScan, scanSpeed);
-  highlightCurrent();
-}
-
-function restartScan() {
-  clearInterval(scanTimer);
-  highlightCurrent();
-  scanTimer = setInterval(advanceScan, scanSpeed);
-}
-
-function stopScan() { clearInterval(scanTimer); }
-
+function startScan()   { clearInterval(scanTimer); scanTimer=setInterval(advanceScan,scanSpeed); highlightCurrent(); }
+function restartScan() { clearInterval(scanTimer); highlightCurrent(); scanTimer=setInterval(advanceScan,scanSpeed); }
+function stopScan()    { clearInterval(scanTimer); }
 function advanceScan() {
-  if (scanPhase === 'cat') {
-    scanIdx = (scanIdx + 1) % CATEGORIES.length;
-  } else {
-    scanIdx = (scanIdx + 1) % CATEGORIES[currentCat].items.length;
-  }
+  scanIdx = scanPhase==='cat'
+    ? (scanIdx+1)%CATEGORIES.length
+    : (scanIdx+1)%CATEGORIES[currentCat].items.length;
   highlightCurrent();
 }
-
 function selectCurrent() {
   if (!scanActive) return;
   stopScan();
-
-  if (scanPhase === 'cat') {
-    // Select this category, move to card phase
-    currentCat = scanIdx;
-    renderTabs();
-    renderGrid();
-    scanPhase = 'card';
-    scanIdx = 0;
-    // brief pause then start card scan
-    setTimeout(() => { highlightCurrent(); startScan(); }, 300);
+  if (scanPhase==='cat') {
+    currentCat=scanIdx; renderTabs(); renderGrid();
+    scanPhase='card'; scanIdx=0;
+    setTimeout(()=>{ highlightCurrent(); startScan(); },300);
   } else {
-    // Select this card
-    const item = CATEGORIES[currentCat].items[scanIdx];
-    speak(item.sub);
-    addToPhrase(item);
-    flashCard(scanIdx);
-    // Go back to category phase
-    scanPhase = 'cat';
-    scanIdx = currentCat;
-    setTimeout(() => { highlightCurrent(); startScan(); }, 500);
+    const item=CATEGORIES[currentCat].items[scanIdx];
+    speak(item.sub); addToPhrase(item); flashCard(scanIdx);
+    scanPhase='cat'; scanIdx=currentCat;
+    setTimeout(()=>{ highlightCurrent(); startScan(); },500);
   }
 }
-
 function highlightCurrent() {
   clearHighlights();
-  if (scanPhase === 'cat') {
-    updatePhaseIndicator('📂 Scegli categoria', 'phase-cat');
-    const tabs = document.querySelectorAll('.cat-tab');
+  if (scanPhase==='cat') {
+    updatePhaseIndicator('📂 Scegli categoria','phase-cat');
+    const tabs=document.querySelectorAll('.cat-tab');
     if (tabs[scanIdx]) tabs[scanIdx].classList.add('scanned');
   } else {
-    updatePhaseIndicator('🃏 Scegli carta', 'phase-card');
-    const card = document.getElementById('card-' + scanIdx);
-    if (card) {
-      card.classList.add('scanned');
-      card.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }
+    updatePhaseIndicator('🃏 Scegli carta','phase-card');
+    const card=document.getElementById('card-'+scanIdx);
+    if (card) { card.classList.add('scanned'); card.scrollIntoView({block:'nearest',behavior:'smooth'}); }
   }
 }
-
-function clearHighlights() {
-  document.querySelectorAll('.scanned').forEach(el => el.classList.remove('scanned'));
-}
-
-function updatePhaseIndicator(text, cls) {
-  const el = document.getElementById('phase-indicator');
-  el.textContent = text;
-  el.className = cls;
-}
-
-// ═══════════════════════════════════════════
-// SPEED CONTROL
-// ═══════════════════════════════════════════
+function clearHighlights() { document.querySelectorAll('.scanned').forEach(el=>el.classList.remove('scanned')); }
+function updatePhaseIndicator(text,cls) { const el=document.getElementById('phase-indicator'); el.textContent=text; el.className=cls; }
 function updateSpeed(slider) {
-  scanSpeed = Math.round(parseFloat(slider.value) * 10) / 10 * 1000;
-  document.getElementById('speed-val').textContent = parseFloat(slider.value).toFixed(1) + 's';
+  scanSpeed=Math.round(parseFloat(slider.value)*10)/10*1000;
+  document.getElementById('speed-val').textContent=parseFloat(slider.value).toFixed(1)+'s';
   if (scanActive) { stopScan(); startScan(); }
 }
 
-// ═══════════════════════════════════════════
-// KEYBOARD / SWITCH INPUT
-// Any key = select current; works with USB switch buttons
-// ═══════════════════════════════════════════
 document.addEventListener('keydown', e => {
-  // Ignore modifier-only keys
   if (['Shift','Control','Alt','Meta','CapsLock','Tab'].includes(e.key)) return;
-
-  if (!scanActive) {
-    // Start scanning on first keypress
-    toggleScan();
-    return;
-  }
-  e.preventDefault();
-  selectCurrent();
+  if (!scanActive) { toggleScan(); return; }
+  e.preventDefault(); selectCurrent();
 });
 
-// ═══════════════════════════════════════════
-// SERVICE WORKER
-// ═══════════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
-}
-
-// ═══════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════
-renderTabs();
-renderGrid();
-renderPhrase();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+renderTabs(); renderGrid(); renderPhrase();
 </script>
 </body>
 </html>
